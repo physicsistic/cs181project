@@ -6,7 +6,7 @@ import time
 import itertools
 import classify
 
-history_length = 3
+history_length = 2
 GAMMA = 0.5
 
 class State:
@@ -26,8 +26,9 @@ class Action:
                 and self.observe == other.observe
 
 def get_states():
-    plant_states = [g.STATUS_NO_PLANT, g.STATUS_UNKNOWN_PLANT, g.STATUS_NUTRITIOUS_PLANT, g.STATUS_POISONOUS_PLANT]
-    outcomes = list(itertools.product(plant_states, repeat=history_length))
+    #plant_states = [g.STATUS_NO_PLANT, g.STATUS_UNKNOWN_PLANT, g.STATUS_NUTRITIOUS_PLANT, g.STATUS_POISONOUS_PLANT]
+    directions = range(4)
+    outcomes = list(itertools.product(directions, repeat=history_length))
     states = [State(list(tup)) for tup in outcomes]
     return states
 
@@ -65,9 +66,9 @@ def e_greedy(t):
     return False
 
 def observe_img(image):
-    poisonous = classify.classify(image)
-    return poisonous == 0
-    #return True
+    #poisonous = classify.classify(image)
+    #return not poisonous
+    return True
 
 def get_move(view):
     #return common.get_move(view)
@@ -151,6 +152,8 @@ def get_move(view):
     life = view.GetLife()
     if first_round:
         history = [g.STATUS_UNKNOWN_PLANT] * history_length
+        # we don't have a history in the first round, so use random directions
+        #history = random.sample(range(4), history_length)
         view.state = State(history)
     else:
         # determine r based on energy difference
@@ -164,6 +167,14 @@ def get_move(view):
                 most_recent = g.STATUS_POISONOUS_PLANT
         else:
             most_recent = view.status
+        #prev_coord = view.points_visited[len(view.points_visited) - 2]
+        #most_recent = g.DOWN
+        #if prev_coord[0] < x:
+            #most_recent = g.RIGHT
+        #elif prev_coord[0] > x:
+            #most_recent = g.LEFT
+        #elif prev_coord[1] < y:
+            #most_recent = g.UP
         history = view.state.history
         history.pop(0)
         history.append(most_recent)

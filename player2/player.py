@@ -6,6 +6,8 @@ import time
 import itertools
 import sys
 import classify
+import os
+import pickle
 
 GAMMA = 0.5
 
@@ -116,9 +118,14 @@ def get_move(view):
                 R[s][a] = 0.
         view.R = R
 
-        V = {}
-        for s in range(len(states)):
-            V[s] = 0.
+        if os.path.isfile("learned_V"):
+            f = open("learned_V", 'r')
+            V = pickle.load(f)
+            f.close()
+        else:
+            V = {}
+            for s in range(len(states)):
+                V[s] = 0.
         view.V = V
         
         num_sa = {}
@@ -200,6 +207,10 @@ def get_move(view):
         else:
             alpha = 1. / view.num_sa[s][a]
         view.V[s] = old_Vs + alpha * ((r + GAMMA * view.V[s_prime]) - old_Vs)
+        f = open("learned_V", 'w')
+        pickle.dump(view.V, f)
+        f.close()
+
         s = s_prime
         view.state = states[s]
         #print "state: " +str(view.state)

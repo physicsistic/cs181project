@@ -62,12 +62,24 @@ def e_greedy(t):
         return True
     return False
 
-def observe_img(image):
+def observe_img(view):
     #return True
-    poisonous = classify.classify(image)
-    if poisonous == 0:
-        print "EAT IT!"
-    return poisonous == 0
+    #poisonous = classify.classify(image)
+    #if poisonous == 0:
+        #print "EAT IT!"
+    #return poisonous == 0
+    image = view.GetImage()
+    probs = classify.regression(image)
+    if probs[0] > 0.8:
+        return True
+    elif probs[0] < 0.5:
+        return False
+    else:
+        image2 = view.GetImage()
+        probs2 = classify.regression(image2)
+        return probs2[0] > 0.5
+
+
 
 def get_move(view):
     #return common.get_move(view)
@@ -211,6 +223,7 @@ def get_move(view):
             if view.num_sa[s][a_prime] < min_times:
                 a_star = a_prime
         action = actions[a_star]
+        action.observe = True
     # exploit: use formula in notes
     else:
         max_value = 0.
@@ -232,7 +245,7 @@ def get_move(view):
     # if chosen action has observe set to True, use classifier to determine whether to eat
     eat = False
     if status == g.STATUS_UNKNOWN_PLANT and action.observe:
-        eat = observe_img(view.GetImage())
+        eat = observe_img(view)
     # update view attributes for next round
     view.eaten = eat
     view.action = action

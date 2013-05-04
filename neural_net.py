@@ -185,6 +185,11 @@ class NetworkFramework(object):
     self.FeedForwardFn(self.network, input)
     return self.GetNetworkLabel()
 
+  def Regression(self, image):
+    input = self.Convert(image)
+    self.FeedForwardFn(self.network, input)
+    return self.OutputEncoding()
+
   def Performance(self, images):
 
     # Loop over the set of images and count the number correct.

@@ -5,6 +5,9 @@ import pdb
 
 direction = game_interface.UP
 
+# Stay put
+def stay_put():
+  return (-1, False)
 
 def get_move(view):
   # Choose a random direction.

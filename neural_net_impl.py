@@ -482,7 +482,7 @@ class CustomNetwork(EncodedNetworkFramework):
     inputs = []
     hidden_nodes = []
     outputs = []
-    square_size = 16 
+    square_size = 4 
     num_hidden_nodes = int((math.sqrt(num_inputs) - (math.sqrt(square_size) - 1))**2)
     #hidden_nodes = [[],[],[]]
     #square_sizes = [4, 9, 16]

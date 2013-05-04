@@ -100,6 +100,8 @@ def get_move(view):
     # initialize if first move
     if first_round:
         view.points_to_statuses = {}
+        
+        print "directory: " + str(os.getcwd())
 
         T = {}
         for s in range(len(states)):
@@ -187,7 +189,7 @@ def get_move(view):
             neighbor_left = view.points_to_statuses[(x-1, y)]
         if (x+1, y) in view.points_to_statuses:
             neighbor_right = view.points_to_statuses[(x+1, y)]
-        state_prime = (neighbor_up, neighbor_down, neighbor_left, neighbor_right)
+        state_prime = (neighbor_up, neighbor_left, neighbor_down, neighbor_right)
 
         s = states.index(view.state)
         s_prime = states.index(state_prime)

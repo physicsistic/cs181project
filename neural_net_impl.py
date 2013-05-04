@@ -261,6 +261,10 @@ class EncodedNetworkFramework(NetworkFramework):
 
     return output_encoding.index(max(output_encoding))
 
+
+  def GetOutputEncoding(self):
+    return map(lambda node: node.transformed_value, self.network.outputs)
+
   def Convert(self, image):
     """
     Arguments:

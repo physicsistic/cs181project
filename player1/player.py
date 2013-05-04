@@ -1,8 +1,11 @@
 import game_interface
 import random
 import time
+import common
 
 def get_move(view):
+    return common.get_move(view)
+
     hasPlant = view.GetPlantInfo() != game_interface.STATUS_NO_PLANT
     if hasPlant:
         #f = open('training_points2.txt', 'a')

@@ -13,6 +13,14 @@ def classify(img):
 
 	return network.Classify(image)
 
+def regression(img):
+	f = open('trained_network', 'r')
+	network = pickle.load(f)
+	f.close()
+
+	image = imagify(img, 0)
+	return network.Regression(image)
+
 # images = []
 # for i in imgs:
 # 	image = imagify(i, imgs[i])

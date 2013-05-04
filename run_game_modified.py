@@ -49,7 +49,9 @@ def run(options):
     game_interface.curses_draw_board(game)
 
   d = {}
-  img = {}
+  img_file = open('image_map_startlife=100.txt', 'r')
+  img = pickle.load(img_file)
+  img_file.close()
   
   # Keep running until one player runs out of life.
   while True:
@@ -64,12 +66,16 @@ def run(options):
     player2_coords = (player2_view.GetXPos(), player2_view.GetYPos()) 
 
     
-    d[player1_coords] = player1_view.GetPlantInfo()
-    status = player1_view.GetPlantInfo()
-    d[player2_coords] = status
+    player1_status = player1_view.GetPlantInfo()
+    player2_status = player2_view.GetPlantInfo()
+    # d[player1_coords] = player1_status
+    # d[player2_coords] = player2_status
 
-    # if (status == game_interface.STATUS_NUTRITIOUS_PLANT) | (status == game_interface.STATUS_POISONOUS_PLANT):
-    #   img[player1_view.GetImage()] = status
+    if (player1_status == game_interface.STATUS_NUTRITIOUS_PLANT) | (player1_status == game_interface.STATUS_POISONOUS_PLANT):
+      img[player1_view.GetImage()] = player1_status
+    if (player2_status == game_interface.STATUS_NUTRITIOUS_PLANT) | (player2_status == game_interface.STATUS_POISONOUS_PLANT):
+      img[player2_view.GetImage()] = player2_status
+
 
 # ----------------------------------
 
@@ -100,18 +106,20 @@ def run(options):
         else:
           print 'Player 1 wins: %d v. %d' % (l1, l2)
       # Wait for input
-      sys.stdin.read(1)
+      #sys.stdin.read(1)
       if options.display:
         game_interface.curses_close()
       break
 
-  distri_file = open('plant_distribution_100x100_06.txt', 'w')
-  # image_map_file = open('image_map_huge.txt', 'w')
-  # print img
-  pickle.dump(d, distri_file)
-  # pickle.dump(img, image_map_file)
-  distri_file.close()
-  # image_map_file.close()
+  # distri_file = open('plant_distribution_startlife=100.txt', 'w')
+  image_map_file = open('image_map_startlife=100.txt', 'w')
+  #print img
+  # print d
+  # pickle.dump(d, distri_file)
+  pickle.dump(img, image_map_file)
+  # distri_file.close()
+
+  image_map_file.close()
 
 def main(argv):
   parser = OptionParser()

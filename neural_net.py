@@ -173,6 +173,9 @@ class NetworkFramework(object):
   def GetNetworkLabel(self, label):
     raise NotImplementedError("This function has not been implemented")
 
+  def GetOutputEncoding(self):
+    raise NotImplementedError("This function has not been implemented")
+
   def Convert(self, image):
     raise NotImplementedError("This function has not been implemented")
 
@@ -188,7 +191,7 @@ class NetworkFramework(object):
   def Regression(self, image):
     input = self.Convert(image)
     self.FeedForwardFn(self.network, input)
-    return self.OutputEncoding()
+    return self.GetOutputEncoding()
 
   def Performance(self, images):
 

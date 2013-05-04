@@ -33,7 +33,7 @@ def imagify(img, label):
 def main():
 
   # Load pickle file
-  f = open('image_map_large.txt', 'r')
+  f = open('image_map_startlife=100.txt', 'r')
   d = pickle.load(f)
   f.close()
 
@@ -84,10 +84,10 @@ def main():
 
   # Train the network.
   rate = 0.01
-  epochs = 100
+  epochs = 50
   perf_log = network.Train(images, validation, test, rate, epochs)
 
-  f = open('trained_network', 'w')
+  f = open('trained_network_startlife=100_simple', 'w')
   pickle.dump(network, f)
   f.close()
 
@@ -107,11 +107,13 @@ def main():
   plt.xlabel("Epochs")
   plt.legend(["Training Error", "Validation Error", "Testing Error"], loc=1) # legend at lower right
 
-  plot_name = "Plot of error vs epochs - " + ", alpha=" + str(rate) + ", epochs=" + str(optimal_epochs)
+  plot_name = "Plot of error vs epochs - " + "alpha=" + str(rate) + ", epochs=" + str(optimal_epochs)
   plt.title(plot_name)
   
-  # file_name = "error_plot_" + "_alpha=" + str(rate) + "_epochs=" + str(optimal_epochs)
-  # results.savefig(file_name + ".eps", dpi=600)
+  file_name = "error_plot_" + "_alpha=" + str(rate) + "_epochs=" + str(optimal_epochs)
+  results.savefig(file_name + ".eps", dpi=600)
+
+  plt.show()
 
   # f = open(file_name + ".dat", "w")
   # for (train, validate, test) in zip(training_errors, validation_errors, test_errors):
@@ -119,7 +121,6 @@ def main():
   #   f.write(str(validate) + "\t")
   #   f.write(str(test) + "\n")
   # f.close()
-  plt.show()
 
 
 if __name__ == "__main__":
